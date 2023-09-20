@@ -1,0 +1,146 @@
+DONE
+
+--- 0 poms
+
+- spend 10 minutes researching if someone has done this before: https://creatorml.com/
+    - Charles weil
+        - embedding model 4,000 video tumbnails
+        - classifier 768 datapoints 
+
+- NO NO NO NO NOFind a good image embedding model NO NO NO NO NO
+
+- READ ANDREJ KARPATHY'S BLOG POST AGAIN http://karpathy.github.io/2019/04/25/recipe/
+
+--- 1 pom
+
+
+- Find a good linkedin dataset
+    - https://www.kaggle.com/datasets/omashish/linkedin-profile-data no images or urls to users
+    - no count of connections: https://www.kaggle.com/datasets/shreyasajal/linkedin-influencers-data 
+    - no ability to see user urls: https://www.kaggle.com/datasets/killbot/linkedin-profiles-and-jobs-data 
+    - no follower count, 1000 rows only https://www.kaggle.com/datasets/manishkumar7432698/linkedinuserprofiles?select=LinkedIn+people+profiles+datasets.csv 
+
+--- 2 poms
+
+Linkedin data is hard to get at and maybe privacy concerns? Try spotify instead
+
+--- 3 poms
+
+- find spotify dataset: 
+    - has song id, year and "popularity" https://www.kaggle.com/datasets/amitanshjoshi/spotify-1million-tracks
+    - spotify api can be used to pull the images
+
+--- 4 poms
+
+- scrape a single track from spotify
+    - thank you walsh https://www.section.io/engineering-education/spotify-python-part-1/ and chatgpt
+- choose 5000 tracks to scrape
+ 
+--- 5 poms
+
+- start scraping 5000
+
+- start analysing data
+    - look at like 10 samples, try to predict popularity
+
+--- 6 poms
+
+
+- look at 100 random samples
+    - weirdly it looks like songs featuring africans on the cover are more popular
+
+- distribution of popularity
+    - almost half are popularity 0
+- distribution of year
+- distribution of genres
+
+--- 7 poms
+
+Looks like human faces are a predictor of popularity
+    when looking at 128 random albums from tracks with pop of 70+, faces are on 77 covers
+    when looking with popularity zero only 28
+
+- create a training pipeline for a random predictor
+    - make one track per album to avoid confusing the model/nondetermanism
+    - make training and test split
+
+--- 8 poms
+
+create parameters/runs
+random baseline
+average baseline 
+Read karpathy again
+
+--- 9 poms
+
+- install pytorch
+- read how to make a basic neural network
+- work out how to normalise the images
+
+--- 10 poms
+
+stuck fixing pytorch errors :(
+
+--- 11 poms 
+
+- get input-independent baseline
+- overfit one batch  
+- get onto gpu
+
+--- 12 poms
+
+- increase capacity to resnet 18 (did not work)
+
+--- 13 poms
+
+- save some images
+- get output initialization correct
+- look at regular initialization
+
+-- 15 poms
+
+- try 224 size images
+- try 224 images with slightly larger convnet
+    - niiiiiiiiice we're finally fitting the training set
+
+- try with resnet 18
+    - fitting the training set good 
+
+--- 15 poms
+
+- make sure resnet50 does fit training sets
+    - 0.01 loss is reached
+
+- NO NO NO NO  find an embedding model NO NO NO NO 
+    - ViT seems good
+    - my computer only has a small gpu :( 
+
+- try resnet50 with sigmoid
+- begin downloading 10x more data
+
+--- 16 poms
+
+- try resnet with proper mean/std
+
+--- 17 poms
+- train with 2x more data
+
+--- 18 poms
+
+- try big VIT model the same normalise *
+- make s3 bucket and start upload *
+
+--- 19 poms
+
+- try big VIT model reccomended normalise *  
+
+--- 20 poms
+
+- try VIT model with just head 
+
+--- 21 poms
+
+TODO
+ 
+- try bigger VIT model with just head
+- make head a little bit bigger

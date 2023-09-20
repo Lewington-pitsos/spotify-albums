@@ -1,0 +1,71 @@
+{
+  "run": {
+    "name": "128-convnet-1e-4-lr",
+    "model": "128-convnet",
+    "batch_size": 16,
+    "input_independent": false,
+    "epochs": 5,
+    "one_batch": false,
+    "img_size": 128,
+    "lr": 0.0001
+  },
+  "results": {
+    "mae": 0.18773996884465216,
+    "mse": 0.05005679315723275,
+    "rmse": 0.22373375506890494,
+    "_timestamp": 1695036361,
+    "_runtime": 240,
+    "sample_predictions": [
+      [
+        "data/tracks/6uX6WZUzgIQ6a6diuUIWVg/album_image.jpg",
+        0.0,
+        0.22493112087249756
+      ],
+      [
+        "data/tracks/6V7g6qM8wheMivMWrzbPTM/album_image.jpg",
+        0.71,
+        0.18217799067497253
+      ],
+      [
+        "data/tracks/6vGVf8K3ri7VfkCj6PtZRy/album_image.jpg",
+        0.0,
+        0.200947105884552
+      ],
+      [
+        "data/tracks/6vHSV7voDvLHU4kMmyd5zj/album_image.jpg",
+        0.12,
+        0.1945473849773407
+      ],
+      [
+        "data/tracks/6vJFzaR0YnHcjYjCvavBfl/album_image.jpg",
+        0.0,
+        0.1991375982761383
+      ],
+      [
+        "data/tracks/6vKXiLIsOp5zfJIcYtaQD9/album_image.jpg",
+        0.0,
+        0.15856830775737762
+      ],
+      [
+        "data/tracks/6VL4s09JdV9AjYBGsamTXV/album_image.jpg",
+        0.03,
+        0.17429345846176147
+      ],
+      [
+        "data/tracks/6VOyQk2Pp9ZqiX9BHvRNRo/album_image.jpg",
+        0.16,
+        0.19979223608970642
+      ],
+      [
+        "data/tracks/6VqrTPU5HjwaP0HJm1zT5b/album_image.jpg",
+        0.05,
+        0.1971386820077896
+      ],
+      [
+        "data/tracks/6VQye74oX8FYIXUKI7feiG/album_image.jpg",
+        0.48,
+        0.2269432246685028
+      ]
+    ]
+  }
+}
