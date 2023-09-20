@@ -51,11 +51,11 @@ chosen = [track_id for track_id in chosen if track_id not in downloaded]
 
 print('downloading', len(chosen), 'tracks')
 
-for i, track_id in enumerate(chosen):
-    save_idx_track(sp, track_id, data_dir, idx=i)
+# for i, track_id in enumerate(chosen):
+#     save_idx_track(sp, track_id, data_dir, idx=i)
 
-# with ThreadPoolExecutor(max_workers=5) as executor:
+with ThreadPoolExecutor(max_workers=3) as executor:
 
-#     futures = [executor.submit(save_idx_track, sp, track_id, data_dir, idx=i) for i, track_id in enumerate(chosen)]
+    futures = [executor.submit(save_idx_track, sp, track_id, data_dir, idx=i) for i, track_id in enumerate(chosen)]
 
-#     results = [f.result() for f in futures]
+    results = [f.result() for f in futures]

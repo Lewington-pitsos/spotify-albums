@@ -5,3 +5,6 @@ virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"

@@ -1,5 +1,7 @@
-credentials
-data
+credentials/*
+!credentials/.gitignore
+data/*
+!data/.gitignore
 **/__pycache__
 wandb
 venv
