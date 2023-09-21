@@ -1,18 +1,18 @@
 {
     "runs": [
         {
-            "name": "vit-224",
+            "name": "resnet",
             "strategy": "cnn",
-            "model": "vit_base_patch16_224", 
-            "batch_size": 64, 
+            "model": "resnet-50", 
+            "batch_size": 16, 
             "input_independent": false,
-            "epochs": 5,
+            "epochs": 30,
             "one_batch": false,
             "img_size": 224,
-            "lr": 0.001,
+            "lr": 0.0003,
             "bias": 0.2,
-            "freeze": true,
-            "hidden_head_size": null
+            "early_stopping": true,
+            "augment": true
         }
     ]
 }

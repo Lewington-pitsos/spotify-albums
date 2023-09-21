@@ -2,7 +2,7 @@ import os
 import timm
 from constants import *
 import json
-import torchvision.transforms as transforms
+import torchvision.transforms as tfms
 import torch
 from torch.utils.data import Dataset
 from PIL import Image
@@ -20,21 +20,31 @@ def _load_img(img_path):
     return image
 
 class TrackDataset(Dataset):
-    def __init__(self, tracks, model_name, model, size=32, mean_std=MEAN_STD):
+    def __init__(self, tracks, model_name, model, size=32, mean_std=MEAN_STD, augment=False):
         self.tracks = tracks
         if model_name in TIMM_MODELS:
             data_config = timm.data.resolve_model_data_config(model)
             transforms = timm.data.create_transform(**data_config, is_training=False)
             self.transform = transforms 
         else:
-            self.transform = transforms.Compose([
-                transforms.ToTensor(),
-                transforms.Resize((size, size)),
-                transforms.Normalize(
+            if augment:
+                base_tfms = [
+                    tfms.RandomHorizontalFlip(),
+                    tfms.RandomRotation(10),
+                ]
+            else:
+                base_tfms = []
+                
+            base_tfms.extend([
+                tfms.ToTensor(),
+                tfms.Resize((size, size), antialias=True),
+                tfms.Normalize(
                     mean=mean_std[0],
                     std=mean_std[1]
                 )
             ])
+            
+            self.transform = tfms.Compose(base_tfms)
 
 
     def __len__(self):
@@ -52,9 +62,9 @@ class TrackDataset(Dataset):
 class InputIndependent(Dataset):
     def __init__(self, tracks):
         self.tracks = tracks
-        self.transform = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Resize((32, 32)),
+        self.transform = tfms.Compose([
+            tfms.ToTensor(),
+            tfms.Resize((32, 32)),
         ])
     def __len__(self):
         return len(self.tracks)
@@ -68,7 +78,7 @@ class InputIndependent(Dataset):
 
         return torch.full_like(image, 0.5).to(torch.float32), torch.tensor([track['popularity'] / 100]).to(torch.float32)
 
-def build_dataloader(model_name, model, tracks, batch_size, input_independent=False, img_size=32):
+def build_dataloader(model_name, model, tracks, batch_size, input_independent=False, img_size=32, augment=False, shuffle=False):
     if model_name in ['resnet-18', 'resnet-50']:
         mean_std = (
             [0.485, 0.456, 0.406],
@@ -82,8 +92,8 @@ def build_dataloader(model_name, model, tracks, batch_size, input_independent=Fa
     if input_independent:
         dataset = InputIndependent(tracks, img_size)
     else:
-        dataset = TrackDataset(tracks, model_name, model, img_size, mean_std)
-    return torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=4)
+        dataset = TrackDataset(tracks, model_name, model, img_size, mean_std, augment)
+    return torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, num_workers=4)
 
 def get_track_dirs():
     track_dirs = [BASE_DIR + f for f in os.listdir(BASE_DIR)]

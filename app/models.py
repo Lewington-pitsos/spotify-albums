@@ -3,6 +3,7 @@ import timm
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
+from constants import *
 
 def check_frozen_layers(model):
     def count_parameters(model: nn.Module):
@@ -152,8 +153,7 @@ class Chonko224(nn.Module):
         self.conv3 = nn.Conv2d(32, 64, 5)
         self.conv4 = nn.Conv2d(64, 128, 5)
 
-
-        self.fc1 = nn.Linear(18432, 224)
+        self.fc1 = nn.Linear(12800, 224)
         self.fc2 = nn.Linear(224, 84)
         self.fc_out = nn.Linear(84, 1)
 
@@ -169,7 +169,7 @@ class Chonko224(nn.Module):
         x = torch.flatten(x, 1)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
-        x = self.fc_out(x)
+        x = F.sigmoid(self.fc_out(x))
         return x
 
 def vit_model(model_name, bias=None, freeze=True, hidden_head_size=None):
@@ -185,7 +185,7 @@ def vit_model(model_name, bias=None, freeze=True, hidden_head_size=None):
         if bias is not None:
             fc2.bias.data.fill_(bias)
 
-        model.head = nn.Sequential(fc1, fc2, nn.Sigmoid())
+        model.head = nn.Sequential(fc1, fc2)
     else: 
         fc = nn.Linear(model.head.in_features, 1)
 
@@ -209,7 +209,7 @@ def build_model(model_name, bias, freeze, hidden_head_size):
         m = ResNet18Regressor(bias=bias)
     elif model_name == 'resnet-50':
         m = ResNet50Regressor(bias=bias)
-    elif model_name in ['vit_base_patch16_224', 'maxvit_xlarge_tf_224.in21k']:
+    elif model_name in TIMM_MODELS:
         m = vit_model(model_name, bias, freeze, hidden_head_size)
     else: 
         raise Exception('unknown model: ' + model_name)
